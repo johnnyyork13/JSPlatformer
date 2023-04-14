@@ -30,7 +30,7 @@ function preload () {
     this.load.image('railsEnd', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
     this.load.image('roadBegin', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
-    this.load.image('player', 'assets/bikePerson.png', {frameWidth: 100, frameHeight: 80});
+    this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
 }
 
 function create() {
@@ -42,16 +42,26 @@ function create() {
     player = this.physics.add.sprite(100, 630, 'player');
     player.setCollideWorldBounds(true);
 
+    this.anims.create({
+        key: 'go',
+        frames: this.anims.generateFrameNumbers('player', {start: 0, end: 2}),
+        frameRate: 20,
+        repeat: -1
+    })
+
     cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update () {
     moveBackgroundObjects(roadBegin, roadEnd, 10);
     moveBackgroundObjects(railsBegin, railsEnd, 10);
+
+    player.anims.play('go', true);
+
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
     } else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(260);
     } else if (cursors.up.isDown) {
         player.y = 630;
     } else if (cursors.down.isDown) {
