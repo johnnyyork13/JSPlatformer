@@ -26,8 +26,8 @@ let railsEnd;
 
 function preload () {
     this.load.image('background', 'assets/background.png');
-    this.load.image('railsBegin', 'assets/rails.png', {frameWidth: 1000, frameHeight: 45});
-    this.load.image('railsEnd', 'assets/rails.png', {frameWidth: 1000, frameHeight: 45});
+    this.load.image('railsBegin', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
+    this.load.image('railsEnd', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
     this.load.image('roadBegin', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.image('player', 'assets/bikePerson.png', {frameWidth: 100, frameHeight: 80});
@@ -35,8 +35,8 @@ function preload () {
 
 function create() {
     this.add.image(500, 400, 'background');
-    railsBegin = this.physics.add.sprite(500, 610, 'railsBegin');
-    railsEnd = this.physics.add.sprite(1500, 610, 'railsEnd');
+    railsBegin = this.physics.add.sprite(500, 510, 'railsBegin');
+    railsEnd = this.physics.add.sprite(1500, 510, 'railsEnd');
     roadBegin = this.physics.add.sprite(500, 710, 'roadBegin');
     roadEnd = this.physics.add.sprite(1500, 710, 'roadEnd');
     player = this.physics.add.sprite(100, 630, 'player');
