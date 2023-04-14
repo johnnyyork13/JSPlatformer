@@ -18,6 +18,7 @@ var config = {
 
 var game = new Phaser.Game(config);
 let player;
+let playerSpeed;
 let cursors;
 let buildingsBegin;
 let buildingsEnd;
@@ -25,9 +26,8 @@ let roadBegin;
 let roadEnd;
 let railsBegin;
 let railsEnd;
-let buildingSpeed;
-let roadSpeed;
-let railSpeed;
+let scrollSpeed;
+let redCar;
 
 function preload () {
     this.load.image('background', 'assets/background.png');
@@ -38,6 +38,7 @@ function preload () {
     this.load.image('roadBegin', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
+    this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
 }
 
 function create() {
@@ -48,6 +49,12 @@ function create() {
     railsEnd = this.physics.add.sprite(1500, 510, 'railsEnd');
     roadBegin = this.physics.add.sprite(500, 710, 'roadBegin');
     roadEnd = this.physics.add.sprite(1500, 710, 'roadEnd');
+
+    //spawn npcs
+    redCar = this.physics.add.sprite(500, 730, 'redCar');
+    redCar.setBounceX(0.2);
+
+    //spawn player
     player = this.physics.add.sprite(100, 630, 'player');
     player.setCollideWorldBounds(true);
 
@@ -57,37 +64,44 @@ function create() {
         frameRate: 20,
         repeat: -1
     })
+    this.anims.create({
+        key: 'redCar',
+        frames: this.anims.generateFrameNumbers('redCar', {start: 0, end: 1}),
+        frameRate: 15,
+        repeat: -1
+    })
 
     cursors = this.input.keyboard.createCursorKeys();
+
+    this.physics.add.collider(player, redCar);
 }
 
 function update () {
-    buildingSpeed = .5;
-    roadSpeed = 10;
-    railSpeed = 10;
+    playerSpeed = 0;
+    scrollSpeed = 10;
     player.anims.play('go', true);
+    redCar.anims.play('redCar', true);
 
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
-        roadSpeed = 5;
-        railSpeed = 5;
-        buildingSpeed = .1;
+        scrollSpeed = 5;
+        playerSpeed = -150;
+        player.setVelocityX(playerSpeed);
     } else if (cursors.right.isDown) {
-        player.setVelocityX(260);
-        roadSpeed = 20;
-        railSpeed = 20;
-        buildingSpeed = 1;
-    } else if (cursors.up.isDown) {
-        player.y = 630;
-    } else if (cursors.down.isDown) {
-        player.y = 720;
+        scrollSpeed = 20;
+        playerSpeed = 250;
+        player.setVelocityX(playerSpeed);
+    } else if (cursors.up.isDown && player.y > 620) {
+        player.y -= 10;
+    } else if (cursors.down.isDown && player.y < 740) {
+        player.y += 10;
     } else {
         player.setVelocityX(0);
+        player.setVelocityY(0);
     }
-
-    moveBackgroundObjects(roadBegin, roadEnd, roadSpeed);
-    moveBackgroundObjects(railsBegin, railsEnd, railSpeed);
-    moveBackgroundObjects(buildingsBegin, buildingsEnd, buildingSpeed);
+    spawnCar(redCar, -playerSpeed);
+    moveBackgroundObjects(roadBegin, roadEnd, scrollSpeed);
+    moveBackgroundObjects(railsBegin, railsEnd, scrollSpeed);
+    moveBackgroundObjects(buildingsBegin, buildingsEnd, scrollSpeed / 20);
 }
 
 function moveBackgroundObjects(objStart, objEnd, speed) {
@@ -100,3 +114,16 @@ function moveBackgroundObjects(objStart, objEnd, speed) {
     objStart.x -= speed;
     objEnd.x -= speed;
 }
+
+function spawnCar(car, speed) {
+    car.setVelocityX(speed - 200);
+    let ranY = Math.floor(Math.random() * 2);
+    if (car.x < -500) {
+        car.x = 1200;
+        if (ranY === 1) {
+            car.y = 650;
+        } else {
+            car.y = 730;
+        }
+    }
+}  
