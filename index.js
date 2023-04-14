@@ -28,6 +28,7 @@ let railsBegin;
 let railsEnd;
 let scrollSpeed;
 let redCar;
+let themeSong;
 
 function preload () {
     this.load.image('background', 'assets/background.png');
@@ -39,6 +40,7 @@ function preload () {
     this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
     this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
+    this.load.audio('theme', 'assets/mainSong.mp3');
 }
 
 function create() {
@@ -49,6 +51,10 @@ function create() {
     railsEnd = this.physics.add.sprite(1500, 510, 'railsEnd');
     roadBegin = this.physics.add.sprite(500, 710, 'roadBegin');
     roadEnd = this.physics.add.sprite(1500, 710, 'roadEnd');
+
+    //audio
+    themeSong = this.sound.add('theme', {loop: true});
+    themeSong.play();
 
     //spawn npcs
     redCar = this.physics.add.sprite(500, 730, 'redCar');
