@@ -21,6 +21,17 @@ h3 {
     font-size: 1.4em;
 }
 
+#pauseBtn {
+    position: absolute;
+    color: white;
+    font-size: 1.5em;
+    right: 500px;
+}
+
+#pauseBtn:hover {
+    cursor: pointer;
+}
+
 button {
     position: absolute;
     top: 50%;

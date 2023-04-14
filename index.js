@@ -1,5 +1,6 @@
 const arrowHeader = document.getElementById('arrowHeader');
 const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 
 let spawnCarBool = false;
 startBtn.addEventListener('click', function(){
@@ -39,6 +40,7 @@ let railsEnd;
 let scrollSpeed;
 let redCar;
 let themeSong;
+let paused = false;
 
 function preload () {
     this.load.image('background', 'assets/background.png');
@@ -65,6 +67,10 @@ function create() {
     //audio
     themeSong = this.sound.add('theme', {loop: true});
     themeSong.play();
+
+    pauseBtn.addEventListener('click', function(){
+        pauseMusic(themeSong, paused);
+    })
 
     //spawn npcs
     redCar = this.physics.add.sprite(500, 730, 'redCar');
@@ -146,3 +152,18 @@ function spawnCar(car, speed) {
         }
     }
 }  
+
+
+
+function pauseMusic(audio, pause){
+    if (!pause) {
+        pauseBtn.textContent = 'Pause Music |>';
+        audio.pause();
+        paused = true;
+    } else {
+        audio.play();
+        pauseBtn.textContent = 'Pause Music | |';
+        paused = false;
+    }
+}
+
