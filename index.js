@@ -1,3 +1,13 @@
+const arrowHeader = document.getElementById('arrowHeader');
+const startBtn = document.getElementById('startBtn');
+
+let spawnCarBool = false;
+startBtn.addEventListener('click', function(){
+    arrowHeader.style.visibility = 'hidden';
+    startBtn.style.visibility = 'hidden';
+    spawnCarBool = true;
+})
+
 var config = {
     type: Phaser.AUTO,
     width: 1000,
@@ -104,7 +114,10 @@ function update () {
         player.setVelocityX(0);
         player.setVelocityY(0);
     }
-    spawnCar(redCar, -playerSpeed);
+    if (spawnCarBool) {
+        spawnCar(redCar, -playerSpeed);
+    }
+
     moveBackgroundObjects(roadBegin, roadEnd, scrollSpeed);
     moveBackgroundObjects(railsBegin, railsEnd, scrollSpeed);
     moveBackgroundObjects(buildingsBegin, buildingsEnd, scrollSpeed / 20);
