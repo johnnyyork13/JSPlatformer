@@ -19,15 +19,20 @@ var config = {
 var game = new Phaser.Game(config);
 let player;
 let cursors;
+let buildingsBegin;
+let buildingsEnd;
 let roadBegin;
 let roadEnd;
 let railsBegin;
 let railsEnd;
+let buildingSpeed;
 let roadSpeed;
 let railSpeed;
 
 function preload () {
     this.load.image('background', 'assets/background.png');
+    this.load.image('buildingsBegin', 'assets/buildings.png', {frameWidth: 1000, frameHeight: 200});
+    this.load.image('buildingsEnd', 'assets/buildings.png', {frameWidth: 1000, frameHeight: 200});
     this.load.image('railsBegin', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
     this.load.image('railsEnd', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
     this.load.image('roadBegin', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
@@ -37,6 +42,8 @@ function preload () {
 
 function create() {
     this.add.image(500, 400, 'background');
+    buildingsBegin = this.physics.add.sprite(500, 510, 'buildingsBegin');
+    buildingsEnd = this.physics.add.sprite(1500, 510, 'buildingsEnd');
     railsBegin = this.physics.add.sprite(500, 510, 'railsBegin');
     railsEnd = this.physics.add.sprite(1500, 510, 'railsEnd');
     roadBegin = this.physics.add.sprite(500, 710, 'roadBegin');
@@ -55,6 +62,7 @@ function create() {
 }
 
 function update () {
+    buildingSpeed = .5;
     roadSpeed = 10;
     railSpeed = 10;
     player.anims.play('go', true);
@@ -63,10 +71,12 @@ function update () {
         player.setVelocityX(-160);
         roadSpeed = 5;
         railSpeed = 5;
+        buildingSpeed = .1;
     } else if (cursors.right.isDown) {
         player.setVelocityX(260);
         roadSpeed = 20;
         railSpeed = 20;
+        buildingSpeed = 1;
     } else if (cursors.up.isDown) {
         player.y = 630;
     } else if (cursors.down.isDown) {
@@ -77,6 +87,7 @@ function update () {
 
     moveBackgroundObjects(roadBegin, roadEnd, roadSpeed);
     moveBackgroundObjects(railsBegin, railsEnd, railSpeed);
+    moveBackgroundObjects(buildingsBegin, buildingsEnd, buildingSpeed);
 }
 
 function moveBackgroundObjects(objStart, objEnd, speed) {
