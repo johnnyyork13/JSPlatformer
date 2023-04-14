@@ -23,6 +23,8 @@ let roadBegin;
 let roadEnd;
 let railsBegin;
 let railsEnd;
+let roadSpeed;
+let railSpeed;
 
 function preload () {
     this.load.image('background', 'assets/background.png');
@@ -53,15 +55,18 @@ function create() {
 }
 
 function update () {
-    moveBackgroundObjects(roadBegin, roadEnd, 10);
-    moveBackgroundObjects(railsBegin, railsEnd, 10);
-
+    roadSpeed = 10;
+    railSpeed = 10;
     player.anims.play('go', true);
 
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
+        roadSpeed = 5;
+        railSpeed = 5;
     } else if (cursors.right.isDown) {
         player.setVelocityX(260);
+        roadSpeed = 20;
+        railSpeed = 20;
     } else if (cursors.up.isDown) {
         player.y = 630;
     } else if (cursors.down.isDown) {
@@ -69,14 +74,17 @@ function update () {
     } else {
         player.setVelocityX(0);
     }
+
+    moveBackgroundObjects(roadBegin, roadEnd, roadSpeed);
+    moveBackgroundObjects(railsBegin, railsEnd, railSpeed);
 }
 
 function moveBackgroundObjects(objStart, objEnd, speed) {
     if (objStart.x <= -500) {
-        objStart.x = 1500;
+        objStart.x = objEnd.x + 1000;
     } 
     if (objEnd.x <= -500) {
-        objEnd.x = 1500;
+        objEnd.x = objStart.x + 1000;
     }
     objStart.x -= speed;
     objEnd.x -= speed;
