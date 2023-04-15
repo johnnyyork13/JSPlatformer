@@ -39,6 +39,7 @@ let railsBegin;
 let railsEnd;
 let scrollSpeed;
 let redCar;
+let veloc;
 let copOne;
 let copTwo;
 let themeSong;
@@ -56,6 +57,8 @@ function preload () {
     this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
     this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
+    this.load.spritesheet('veloc', 'assets/veloc-sheet.png', {frameWidth: 184, frameHeight: 71});
+    
     this.load.audio('theme', 'assets/mainSong.mp3');
 }
 
@@ -70,20 +73,28 @@ function create() {
 
     //audio
     themeSong = this.sound.add('theme', {loop: true});
-    themeSong.play();
+    //themeSong.play();
 
     pauseBtn.addEventListener('click', function(){
         pauseMusic(themeSong, paused);
     })
 
     //spawn npcs
-    redCar = this.physics.add.sprite(600, 730, 'redCar');
-    redCar.setBounceX(0.2);
+    //redCar = this.physics.add.sprite(600, 730, 'redCar');
+    //redCar.setBounceX(0.2);
     copOne = this.physics.add.sprite(120, 650, 'copOne');
     copTwo = this.physics.add.sprite(170, 730, 'copTwo');
     copOne.setCollideWorldBounds(true);
     copTwo.setCollideWorldBounds(true);
 
+    //josh car
+    veloc = this.physics.add.sprite(600, 730, 'veloc');
+    this.anims.create({
+        key: 'velocMove',
+        frames: this.anims.generateFrameNumbers('veloc', {start: 0, end: 1}),
+        frameRate: 5,
+        repeat: -1
+    })
 
     this.anims.create({
         key: 'coppersOne',
@@ -126,7 +137,8 @@ function update () {
     playerSpeed = 0;
     scrollSpeed = 20;
     player.anims.play('go', true);
-    redCar.anims.play('redCar', true);
+    //redCar.anims.play('redCar', true);
+    veloc.anims.play('velocMove', true);
     copOne.anims.play('coppersOne', true);
     copTwo.anims.play('coppersTwo', true);
     if (cursors.left.isDown) {
@@ -147,7 +159,7 @@ function update () {
     }
 
     if (spawnCarBool) {
-        spawnCar(redCar, playerSpeed);
+        //spawnCar(redCar, playerSpeed);
     }
 
     moveBackgroundObjects(roadBegin, roadEnd, scrollSpeed);
@@ -156,11 +168,11 @@ function update () {
 }
 
 function moveBackgroundObjects(objStart, objEnd, speed) {
-    if (objStart.x <= -500) {
-        objStart.x = objEnd.x + 1000;
+    if (objStart.x <= -500) { //-500 is half of the width of the background obj
+        objStart.x = objEnd.x + objStart.width;
     } 
     if (objEnd.x <= -500) {
-        objEnd.x = objStart.x + 1000;
+        objEnd.x = objStart.x + objEnd.width;
     }
     objStart.x -= speed;
     objEnd.x -= speed;
