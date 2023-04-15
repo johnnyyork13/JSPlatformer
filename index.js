@@ -39,6 +39,8 @@ let railsBegin;
 let railsEnd;
 let scrollSpeed;
 let redCar;
+let copOne;
+let copTwo;
 let themeSong;
 let paused = false;
 
@@ -52,6 +54,8 @@ function preload () {
     this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
     this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
+    this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 184, frameHeight: 91});
+    this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 184, frameHeight: 91});
     this.load.audio('theme', 'assets/mainSong.mp3');
 }
 
@@ -73,11 +77,29 @@ function create() {
     })
 
     //spawn npcs
-    redCar = this.physics.add.sprite(500, 730, 'redCar');
+    redCar = this.physics.add.sprite(1500, 730, 'redCar');
     redCar.setBounceX(0.2);
+    copOne = this.physics.add.sprite(120, 650, 'copOne');
+    copTwo = this.physics.add.sprite(170, 730, 'copTwo');
+    copOne.setCollideWorldBounds(true);
+    copTwo.setCollideWorldBounds(true);
+
+
+    this.anims.create({
+        key: 'coppersOne',
+        frames: this.anims.generateFrameNumbers('copOne', {start: 0, end: 5}),
+        frameRate: 5,
+        repeat: -1
+    })
+    this.anims.create({
+        key: 'coppersTwo',
+        frames: this.anims.generateFrameNumbers('copTwo', {start: 0, end: 5}),
+        frameRate: 5,
+        repeat: -1
+    })
 
     //spawn player
-    player = this.physics.add.sprite(100, 630, 'player');
+    player = this.physics.add.sprite(500, 630, 'player');
     player.setCollideWorldBounds(true);
 
     this.anims.create({
@@ -96,6 +118,8 @@ function create() {
     cursors = this.input.keyboard.createCursorKeys();
 
     this.physics.add.collider(player, redCar);
+    this.physics.add.collider(player, copOne);
+    this.physics.add.collider(player, copTwo);
 }
 
 function update () {
@@ -103,7 +127,8 @@ function update () {
     scrollSpeed = 10;
     player.anims.play('go', true);
     redCar.anims.play('redCar', true);
-
+    copOne.anims.play('coppersOne', true);
+    copTwo.anims.play('coppersTwo', true);
     if (cursors.left.isDown) {
         scrollSpeed = 5;
         playerSpeed = -150;
@@ -121,7 +146,7 @@ function update () {
         player.setVelocityY(0);
     }
     if (spawnCarBool) {
-        spawnCar(redCar, -playerSpeed);
+        //spawnCar(redCar, -playerSpeed);
     }
 
     moveBackgroundObjects(roadBegin, roadEnd, scrollSpeed);
