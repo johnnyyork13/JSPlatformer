@@ -77,7 +77,7 @@ function create() {
     })
 
     //spawn npcs
-    redCar = this.physics.add.sprite(1500, 730, 'redCar');
+    redCar = this.physics.add.sprite(600, 730, 'redCar');
     redCar.setBounceX(0.2);
     copOne = this.physics.add.sprite(120, 650, 'copOne');
     copTwo = this.physics.add.sprite(170, 730, 'copTwo');
@@ -124,18 +124,18 @@ function create() {
 
 function update () {
     playerSpeed = 0;
-    scrollSpeed = 10;
+    scrollSpeed = 20;
     player.anims.play('go', true);
     redCar.anims.play('redCar', true);
     copOne.anims.play('coppersOne', true);
     copTwo.anims.play('coppersTwo', true);
     if (cursors.left.isDown) {
         scrollSpeed = 5;
-        playerSpeed = -150;
+        playerSpeed = -300;
         player.setVelocityX(playerSpeed);
     } else if (cursors.right.isDown) {
-        scrollSpeed = 20;
-        playerSpeed = 250;
+        scrollSpeed = 30;
+        playerSpeed = 100;
         player.setVelocityX(playerSpeed);
     } else if (cursors.up.isDown && player.y > 620) {
         player.y -= 10;
@@ -145,8 +145,9 @@ function update () {
         player.setVelocityX(0);
         player.setVelocityY(0);
     }
+
     if (spawnCarBool) {
-        //spawnCar(redCar, -playerSpeed);
+        spawnCar(redCar, playerSpeed);
     }
 
     moveBackgroundObjects(roadBegin, roadEnd, scrollSpeed);
@@ -165,16 +166,24 @@ function moveBackgroundObjects(objStart, objEnd, speed) {
     objEnd.x -= speed;
 }
 
+let carRunning = false;
 function spawnCar(car, speed) {
-    car.setVelocityX(speed - 200);
     let ranY = Math.floor(Math.random() * 2);
-    if (car.x < -500) {
-        car.x = 1200;
-        if (ranY === 1) {
-            car.y = 650;
-        } else {
-            car.y = 730;
+    if (car.x < 600) {
+        carRunning = true;
+    }
+    if (!carRunning) {
+        car.setVelocityX(-300);
+    } else {
+        if (car.x > 3000) {
+            carRunning = false;
+            if (ranY === 0) {
+                car.y = 650;
+            } else {
+                car.y = 730;
+            }
         }
+        car.setVelocityX(300 - speed);
     }
 }  
 
