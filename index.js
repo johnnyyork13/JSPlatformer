@@ -54,8 +54,8 @@ function preload () {
     this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
     this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
     this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
-    this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 184, frameHeight: 91});
-    this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 184, frameHeight: 91});
+    this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
+    this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.audio('theme', 'assets/mainSong.mp3');
 }
 
