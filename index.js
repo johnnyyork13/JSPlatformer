@@ -54,7 +54,7 @@ let game = new Phaser.Game(config);
 let globalThis;
 let startGame = false;
 let selectedPlayer;
-let setCollision = false;
+let beginLevel = false;
 
 //music
 let themeSong;
@@ -65,6 +65,8 @@ let player;
 let cursors;
 let bikePlayer;
 let carPlayer;
+let playerXIncrease = 70;
+let playerXDecrease = -350;
 
 //backgrounds
 let buildings;
@@ -120,13 +122,12 @@ function create() {
     playerCar = this.physics.add.sprite(600, 730, 'hyundai');
 
     //spawn npcs
-    redCar = this.physics.add.sprite(1700, 550, 'redCar');
-    copOne = this.physics.add.sprite(-520, 650, 'copOne');
+    redCar = this.physics.add.sprite(1200, 550, 'redCar');
+    copOne = this.physics.add.sprite(20, 650, 'copOne');
     copTwo = this.physics.add.sprite(-570, 730, 'copTwo');
+    copOne.body.immovable = true;
+    copTwo.body.immovable = true;
     
-    //basic collision
-    
-
     //get inputs
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -135,23 +136,31 @@ function create() {
     animations(thisVar);
 }
 
+let npcCollision = false;
+let beginRam = false;
+let rammed = false;
 function update () {
-    scrollSpeed = 10;
-
+    scrollSpeed = 10; //set scrollSpeed initial value every update
     if (startGame) {
-        if (!setCollision) {
+        if (!beginLevel) {
             collisionDetection();
-            setCollision = true;
+            beginLevel = true;
+            //set cops to randomly charge player
         }   
         scrollSpeed = playerMove(player, scrollSpeed);
         player.anims.play(`${selectedPlayer}`, true);
+        copDefaultState(copOne, player);
+        if (!carSpawned) {
+            spawnTraffic(redCar);
+        }
+
     }
 
     //animation updates
-    if (playerBike.anims !== undefined) {
+    if (playerBike.anims !== undefined) { //check if bike obj is removed
         playerBike.anims.play('go', true);
     } 
-    if (playerCar.anims !== undefined) {
+    if (playerCar.anims !== undefined) { //check if car obj is removed
         playerCar.anims.play('hyundaiMove', true);
     }
     

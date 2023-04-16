@@ -1,10 +1,10 @@
 function playerMove(player, scrollSpeed) {
     if (cursors.left.isDown) {
-        player.setVelocityX(-350)
+        player.setVelocityX(playerXDecrease);
         player.setVelocityY(0);
         scrollSpeed = 5;
     } else if (cursors.right.isDown) {
-        player.setVelocityX(70);
+        player.setVelocityX(playerXIncrease);
         player.setVelocityY(0);
         scrollSpeed = 25;
     } else if (cursors.up.isDown) {
