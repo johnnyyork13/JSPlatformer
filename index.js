@@ -17,7 +17,14 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 0},
-            debug: false
+            debug: false,
+            fps: 30
+        },
+        fps: {
+            max: 30,
+            min: 30,
+            target: 30,
+            forceSetTimeout: true
         }
     },
     scene: {
@@ -51,8 +58,8 @@ function preload () {
     this.load.image('buildingsEnd', 'assets/buildings.png', {frameWidth: 1000, frameHeight: 200});
     this.load.image('railsBegin', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
     this.load.image('railsEnd', 'assets/rails.png', {frameWidth: 1000, frameHeight: 250});
-    this.load.image('roadBegin', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
-    this.load.image('roadEnd', 'assets/road.png', {frameWidth: 1000, frameHeight: 180});
+    this.load.image('roadBegin', 'assets/roadThree.png', {frameWidth: 1000, frameHeight: 270});
+    this.load.image('roadEnd', 'assets/roadThree.png', {frameWidth: 1000, frameHeight: 270});
     this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
     this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
     this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
@@ -64,12 +71,12 @@ function preload () {
 
 function create() {
     this.add.image(500, 400, 'background');
-    buildingsBegin = this.physics.add.sprite(500, 510, 'buildingsBegin');
-    buildingsEnd = this.physics.add.sprite(1500, 510, 'buildingsEnd');
-    railsBegin = this.physics.add.sprite(500, 510, 'railsBegin');
-    railsEnd = this.physics.add.sprite(1500, 510, 'railsEnd');
-    roadBegin = this.physics.add.sprite(500, 710, 'roadBegin');
-    roadEnd = this.physics.add.sprite(1500, 710, 'roadEnd');
+    buildingsBegin = this.physics.add.sprite(500, 420, 'buildingsBegin');
+    buildingsEnd = this.physics.add.sprite(1500, 420, 'buildingsEnd');
+    railsBegin = this.physics.add.sprite(500, 420, 'railsBegin');
+    railsEnd = this.physics.add.sprite(1500, 420, 'railsEnd');
+    roadBegin = this.physics.add.sprite(500, 670, 'roadBegin');
+    roadEnd = this.physics.add.sprite(1500, 670, 'roadEnd');
 
     //audio
     themeSong = this.sound.add('theme', {loop: true});
@@ -149,7 +156,7 @@ function update () {
         scrollSpeed = 30;
         playerSpeed = 100;
         player.setVelocityX(playerSpeed);
-    } else if (cursors.up.isDown && player.y > 620) {
+    } else if (cursors.up.isDown && player.y > 530) {
         player.y -= 10;
     } else if (cursors.down.isDown && player.y < 740) {
         player.y += 10;
