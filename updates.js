@@ -1,14 +1,14 @@
 function playerMove(player, scrollSpeed) {
     if (cursors.left.isDown) {
-        player.setVelocityX(-150)
+        player.setVelocityX(-250)
         scrollSpeed = 5;
     } else if (cursors.right.isDown) {
-        player.setVelocityX(350);
+        player.setVelocityX(450);
         scrollSpeed = 20;
-    } else if (cursors.up.isDown && player.y > 530) {
-        player.setVelocityY(-100);
-    } else if (cursors.down.isDown && player.y < 740) {
-        player.setVelocityY(100);
+    } else if (cursors.up.isDown) {
+        player.setVelocityY(-200);
+    } else if (cursors.down.isDown) {
+        player.setVelocityY(200);
     } else {
         player.setVelocityX(0);
         player.setVelocityY(0);

@@ -10,14 +10,18 @@ function pauseMusic(audio, pause){
     }
 }
 
-//rails collision helper
-function railsCollision(rails) {
-    rails.children.entries[0].body.checkCollision.down = false;
-    rails.children.entries[1].body.checkCollision.down = false;
-    rails.children.entries[0].body.checkCollision.left = false;
-    rails.children.entries[1].body.checkCollision.left = false;
-    rails.children.entries[0].body.checkCollision.right = false;
-    rails.children.entries[1].body.checkCollision.right = false;
-    rails.children.entries[0].body.immovable = true;
-    rails.children.entries[1].body.immovable = true;
+function removeOtherPlayerFromScreen(player) {
+    player.setVelocityX(200);
+    if (player.x > 1200) {
+        player.destroy();
+    }
+}
+
+function collisionDetection(){
+    player.setCollideWorldBounds(true);
+    globalThis.physics.add.collider(player, redCar);
+    globalThis.physics.add.collider(player, copOne);
+    globalThis.physics.add.collider(player, copTwo);
+    globalThis.physics.add.collider(player, railsCollisionBar);
+    railsCollisionBar.body.immovable = true;
 }

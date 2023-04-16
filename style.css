@@ -33,6 +33,10 @@ body {
     align-items: center;
 }
 
+#selectBtn:hover {
+    color: white;
+}
+
 #selectionContainer {
     visibility: hidden;
     position: absolute;

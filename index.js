@@ -14,23 +14,22 @@ selectBtn.addEventListener('click', function(){
 
 playerBikeChoice.addEventListener('click', function(){
     selectedPlayer = 'playerBike'; //for animation purposes
-    player = updatePlayer(globalThis, 'bike');
     playerBikeChoice.style.backgroundColor = 'rgba(182, 112, 236, 0.5)';
     playerCarChoice.style.backgroundColor = 'rgba(238, 232, 232, 0.01)';
-    startGame = true;
 });
 
 playerCarChoice.addEventListener('click', function(){
     selectedPlayer = 'playerCar'; //for animation purposes
-    player = updatePlayer(globalThis, 'car');
     playerCarChoice.style.backgroundColor = 'rgba(182, 112, 236, 0.5)';
     playerBikeChoice.style.backgroundColor = 'rgba(238, 232, 232, 0.01)';
 });
 
 startBtn.addEventListener('click', function(){
+    player = updatePlayer(globalThis, selectedPlayer);
     gameTitle.style.visibility = 'hidden';
     arrowHeader.style.visibility = 'hidden';
     selectionContainer.style.visibility = 'hidden';
+    startGame = true;
 });
 
 var config = {
@@ -55,6 +54,7 @@ let game = new Phaser.Game(config);
 let globalThis;
 let startGame = false;
 let selectedPlayer;
+let setCollision = false;
 
 //music
 let themeSong;
@@ -71,6 +71,7 @@ let buildings;
 let roads;
 let rails;
 let scrollSpeed;
+let railsCollisionBar;
 
 //npc variables
 let redCar;
@@ -88,7 +89,7 @@ function preload () {
     this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.spritesheet('hyundai', 'assets/veloc-sheet.png', {frameWidth: 184, frameHeight: 71});
-    
+
     this.load.audio('theme', 'assets/mainSong.mp3');
 }
 
@@ -104,7 +105,9 @@ function create() {
     roads = this.physics.add.group();
     roads.create(500, 670, 'roads');
     roads.create(1500, 670, 'roads');
-
+    //collision box for rails
+    railsCollisionBar = this.add.rectangle(500, 460, 1000, 50)
+    this.physics.add.existing(railsCollisionBar);
     //audio
     themeSong = this.sound.add('theme', {loop: true});
     //themeSong.play();
@@ -133,37 +136,40 @@ function create() {
 }
 
 function updatePlayer(globalThis, selectedPlayer) {
-    if (selectedPlayer === 'bike') {
+    if (selectedPlayer === 'playerBike') {
         player = globalThis.physics.add.sprite(350, 630, 'bike');
         playerBike.destroy();
-    } else if (selectedPlayer === 'car') {
+        removeOtherPlayerFromScreen(playerCar);
+    } else if (selectedPlayer === 'playerCar') {
         player = globalThis.physics.add.sprite(600, 730, 'hyundai');
         playerCar.destroy();
+        removeOtherPlayerFromScreen(playerBike);
     }
-
-    player.setCollideWorldBounds(true);
-    globalThis.physics.add.collider(player, redCar);
-    globalThis.physics.add.collider(player, copOne);
-    globalThis.physics.add.collider(player, copTwo);
-    globalThis.physics.add.collider(player, rails);
-    railsCollision(rails);
 
     return player;
 }
 
 function update () {
-    if (startGame) {   
+    scrollSpeed = 10;
+    
+    if (startGame) {
+        if (!setCollision) {
+            collisionDetection();
+            setCollision = true;
+        }   
         scrollSpeed = playerMove(player, scrollSpeed);
         player.anims.play(`${selectedPlayer}`, true);
     }
-    //scrollSpeed = playerMove(player, scrollSpeed);
-    //variables that need updating
-    scrollSpeed = 10;
 
     //animation updates
-    playerBike.anims.play('go', true);
+    if (playerBike.anims !== undefined) {
+        playerBike.anims.play('go', true);
+    } 
+    if (playerCar.anims !== undefined) {
+        playerCar.anims.play('hyundaiMove', true);
+    }
+    
     redCar.anims.play('redCar', true);
-    playerCar.anims.play('hyundaiMove', true);
     copOne.anims.play('coppersOne', true);
     copTwo.anims.play('coppersTwo', true);
 
