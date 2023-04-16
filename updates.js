@@ -1,16 +1,14 @@
-function playerMove(player, scrollSpeed, FPS_INCREMENT) {
+function playerMove(player, scrollSpeed) {
     if (cursors.left.isDown) {
+        player.setVelocityX(-150)
         scrollSpeed = 5;
-        FPS_INCREMENT = 350;
-        player.setVelocityX(-FPS_INCREMENT);
     } else if (cursors.right.isDown) {
-        scrollSpeed = 30;
-        FPS_INCREMENT = 100;
-        player.setVelocityX(FPS_INCREMENT);
+        player.setVelocityX(350);
+        scrollSpeed = 20;
     } else if (cursors.up.isDown && player.y > 530) {
-        player.y -= 10;
+        player.setVelocityY(-100);
     } else if (cursors.down.isDown && player.y < 740) {
-        player.y += 10;
+        player.setVelocityY(100);
     } else {
         player.setVelocityX(0);
         player.setVelocityY(0);
@@ -18,13 +16,13 @@ function playerMove(player, scrollSpeed, FPS_INCREMENT) {
     return scrollSpeed;
 }
 
-function moveBackgroundObjects(objStart, objEnd, speed) {
+function moveBackgroundObjects(objStart, objEnd, scrollSpeed) {
     if (objStart.x <= -500) { //-500 is half of the width of the background obj
         objStart.x = objEnd.x + objStart.width;
     } 
     if (objEnd.x <= -500) {
         objEnd.x = objStart.x + objEnd.width;
     }
-    objStart.x -= speed;
-    objEnd.x -= speed;
+    objStart.setVelocityX(-scrollSpeed * 50);
+    objEnd.setVelocityX(-scrollSpeed * 50);
 }

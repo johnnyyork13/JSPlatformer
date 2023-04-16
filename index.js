@@ -28,8 +28,6 @@ var config = {
 };
 //main
 var game = new Phaser.Game(config);
-let FPS;
-let FPS_INCREMENT = 350;
 
 //music
 let themeSong;
@@ -37,7 +35,6 @@ let musicPaused = false;
 
 //player
 let player;
-let playerSpeed;
 let cursors;
 
 //backgrounds
@@ -77,8 +74,11 @@ function create() {
     this.add.image(500, 400, 'background');
     buildingsBegin = this.physics.add.sprite(500, 420, 'buildingsBegin');
     buildingsEnd = this.physics.add.sprite(1500, 420, 'buildingsEnd');
-    railsBegin = this.physics.add.sprite(500, 420, 'railsBegin');
-    railsEnd = this.physics.add.sprite(1500, 420, 'railsEnd');
+    //railsBegin = this.physics.add.sprite(500, 420, 'railsBegin');
+    //railsEnd = this.physics.add.sprite(1500, 420, 'railsEnd');
+    rails = this.physics.add.staticGroup();
+    rails.create(500, 420, 'railsBegin');
+    rails.create(1500, 420, 'railsBegin');
     roadBegin = this.physics.add.sprite(500, 670, 'roadBegin');
     roadEnd = this.physics.add.sprite(1500, 670, 'roadEnd');
 
@@ -102,9 +102,11 @@ function create() {
     player.setCollideWorldBounds(true);
     copOne.setCollideWorldBounds(true);
     copTwo.setCollideWorldBounds(true);
-    this.physics.add.collider(player, redCar);
+    //this.physics.add.collider(player, redCar);
     this.physics.add.collider(player, copOne);
     this.physics.add.collider(player, copTwo);
+    this.physics.add.collider(player, rails);
+    this.physics.add.collider(player, railsEnd);
 
 
     //get inputs
@@ -115,12 +117,10 @@ function create() {
     animations(thisVar);
 }
 
-function update (time, delta) {
-    FPS = (delta / (1000 / 60));
-    console.log(FPS);
-    scrollSpeed = FPS;
+function update () {
+    scrollSpeed = 10;
     //variables that need updating
-    scrollSpeed = playerMove(player, scrollSpeed, FPS_INCREMENT);
+    scrollSpeed = playerMove(player, scrollSpeed);
 
     //animation updates
     player.anims.play('go', true);
@@ -131,7 +131,7 @@ function update (time, delta) {
 
     //background object updates
     moveBackgroundObjects(roadBegin, roadEnd, scrollSpeed);
-    moveBackgroundObjects(railsBegin, railsEnd, scrollSpeed);
+    //moveBackgroundObjects(railsBegin, railsEnd, scrollSpeed);
     moveBackgroundObjects(buildingsBegin, buildingsEnd, scrollSpeed / 20);
 }
 
