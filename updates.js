@@ -16,7 +16,9 @@ function playerMove(player, scrollSpeed) {
     return scrollSpeed;
 }
 
-function moveBackgroundObjects(objStart, objEnd, scrollSpeed) {
+function moveBackgroundObjects(obj, scrollSpeed) {
+    let objStart = obj.children.entries[0];
+    let objEnd = obj.children.entries[1];
     if (objStart.x <= -500) { //-500 is half of the width of the background obj
         objStart.x = objEnd.x + objStart.width;
     } 
@@ -25,4 +27,5 @@ function moveBackgroundObjects(objStart, objEnd, scrollSpeed) {
     }
     objStart.setVelocityX(-scrollSpeed * 50);
     objEnd.setVelocityX(-scrollSpeed * 50);
+    return obj
 }

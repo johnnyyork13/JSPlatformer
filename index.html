@@ -9,12 +9,28 @@
     <title>Document</title>
 </head>
 <body>
+    <h1 id="gameTitle">SynthEscape</h2>
+    <div id="selectBtn">Select Rider</div>
     <h3 id="arrowHeader">Use Arrow Keys to Move</h3>
     <p id="pauseBtn">Pause Music | |</p>
-    <button id="startBtn">Start</button>
+    <div id="selectionContainer">
+        <div class="selectionHeader">
+            <h2>Select your rider:</h2>
+        </div>
+        <div id="charSelection">
+            <div id="playerBike">
+                <img src="assets/bikePerson.png">
+            </div>
+            <div id="playerCar">
+                <img src="assets/veloc.png">
+            </div>
+        </div>
+        <div id="startBtn">Start</div>
+    </div>
     <script src="updates.js"></script>
     <script src="animations.js"></script>
     <script src="functions.js"></script>
+    <script src="npc.js"></script>
     <script src="index.js"></script>
 </body>
 </html>
