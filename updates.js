@@ -1,10 +1,12 @@
 function playerMove(player, scrollSpeed) {
     if (cursors.left.isDown) {
-        player.setVelocityX(-250)
+        player.setVelocityX(-350)
+        player.setVelocityY(0);
         scrollSpeed = 5;
     } else if (cursors.right.isDown) {
-        player.setVelocityX(450);
-        scrollSpeed = 20;
+        player.setVelocityX(70);
+        player.setVelocityY(0);
+        scrollSpeed = 25;
     } else if (cursors.up.isDown) {
         player.setVelocityY(-200);
     } else if (cursors.down.isDown) {
@@ -28,4 +30,18 @@ function moveBackgroundObjects(obj, scrollSpeed) {
     objStart.setVelocityX(-scrollSpeed * 50);
     objEnd.setVelocityX(-scrollSpeed * 50);
     return obj
+}
+
+function updatePlayer(globalThis, selectedPlayer) {
+    if (selectedPlayer === 'playerBike') {
+        player = globalThis.physics.add.sprite(350, 630, 'bike');
+        playerBike.destroy();
+        removeOtherPlayerFromScreen(playerCar);
+    } else if (selectedPlayer === 'playerCar') {
+        player = globalThis.physics.add.sprite(600, 730, 'hyundai');
+        playerCar.destroy();
+        removeOtherPlayerFromScreen(playerBike);
+    }
+
+    return player;
 }

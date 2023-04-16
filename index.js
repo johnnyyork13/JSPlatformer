@@ -135,23 +135,9 @@ function create() {
     animations(thisVar);
 }
 
-function updatePlayer(globalThis, selectedPlayer) {
-    if (selectedPlayer === 'playerBike') {
-        player = globalThis.physics.add.sprite(350, 630, 'bike');
-        playerBike.destroy();
-        removeOtherPlayerFromScreen(playerCar);
-    } else if (selectedPlayer === 'playerCar') {
-        player = globalThis.physics.add.sprite(600, 730, 'hyundai');
-        playerCar.destroy();
-        removeOtherPlayerFromScreen(playerBike);
-    }
-
-    return player;
-}
-
 function update () {
     scrollSpeed = 10;
-    
+
     if (startGame) {
         if (!setCollision) {
             collisionDetection();
