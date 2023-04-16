@@ -29,7 +29,7 @@ var config = {
 //main
 var game = new Phaser.Game(config);
 let FPS;
-let FPS_INCREMENT;
+let FPS_INCREMENT = 350;
 
 //music
 let themeSong;
