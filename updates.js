@@ -1,4 +1,4 @@
-function playerMove(player, playerSpeed, scrollSpeed, FPS_INCREMENT) {
+function playerMove(player, scrollSpeed, FPS_INCREMENT) {
     if (cursors.left.isDown) {
         scrollSpeed = 5;
         FPS_INCREMENT = 350;
@@ -15,7 +15,7 @@ function playerMove(player, playerSpeed, scrollSpeed, FPS_INCREMENT) {
         player.setVelocityX(0);
         player.setVelocityY(0);
     }
-    return [playerSpeed, scrollSpeed];
+    return scrollSpeed;
 }
 
 function moveBackgroundObjects(objStart, objEnd, speed) {

@@ -116,14 +116,11 @@ function create() {
 }
 
 function update (time, delta) {
-    console.log(delta);
-    FPS = (FPS_INCREMENT / delta);
-    //variables that need updating
-    playerSpeed = 0;
+    FPS = (delta / (1000 / 60));
+    console.log(FPS);
     scrollSpeed = FPS;
-    let speedArr = playerMove(player, playerSpeed, scrollSpeed, FPS_INCREMENT);
-    playerSpeed = speedArr[0];
-    scrollSpeed = speedArr[1];
+    //variables that need updating
+    scrollSpeed = playerMove(player, scrollSpeed, FPS_INCREMENT);
 
     //animation updates
     player.anims.play('go', true);
