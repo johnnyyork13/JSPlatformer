@@ -65,7 +65,7 @@ function preload () {
     this.load.image('roadBegin', 'assets/roadThree.png', {frameWidth: 1000, frameHeight: 270});
     this.load.image('roadEnd', 'assets/roadThree.png', {frameWidth: 1000, frameHeight: 270});
     this.load.spritesheet('player', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
-    this.load.spritesheet('redCar', 'assets/car-sheet.png', {frameWidth: 201, frameHeight: 80});
+    this.load.spritesheet('redCar', 'assets/red-car-sheet.png', {frameWidth: 201, frameHeight: 80});
     this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.spritesheet('hyundai', 'assets/veloc-sheet.png', {frameWidth: 184, frameHeight: 71});
@@ -116,6 +116,7 @@ function create() {
 }
 
 function update (time, delta) {
+    console.log(delta);
     FPS = (FPS_INCREMENT / delta);
     //variables that need updating
     playerSpeed = 0;
