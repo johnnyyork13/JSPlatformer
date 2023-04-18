@@ -17,11 +17,4 @@ function removeOtherPlayerFromScreen(player) {
     }
 }
 
-function collisionDetection(){
-    player.setCollideWorldBounds(true);
-    globalThis.physics.add.collider(player, redCar);
-    globalThis.physics.add.collider(player, copOne);
-    globalThis.physics.add.collider(player, copTwo);
-    globalThis.physics.add.collider(player, railsCollisionBar);
-    railsCollisionBar.body.immovable = true;
-}
+

@@ -7,6 +7,8 @@ const selectionContainer = document.getElementById('selectionContainer');
 const playerBikeChoice = document.getElementById('playerBike');
 const playerCarChoice = document.getElementById('playerCar');
 
+
+
 selectBtn.addEventListener('click', function(){
     selectBtn.style.visibility = 'hidden';
     selectionContainer.style.visibility = 'visible';
@@ -88,8 +90,7 @@ function preload () {
     this.load.image('roads', 'assets/roadThree.png', {frameWidth: 1000, frameHeight: 270});
     this.load.spritesheet('bike', 'assets/bikePersonSheet.png', {frameWidth: 100, frameHeight: 80});
     this.load.spritesheet('redCar', 'assets/red-car-sheet.png', {frameWidth: 201, frameHeight: 80});
-    this.load.spritesheet('copOne', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
-    this.load.spritesheet('copTwo', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
+    this.load.spritesheet('cop', 'assets/cop-sheet.png', {frameWidth: 183.5, frameHeight: 91});
     this.load.spritesheet('hyundai', 'assets/veloc-sheet.png', {frameWidth: 184, frameHeight: 71});
 
     this.load.audio('theme', 'assets/mainSong.mp3');
@@ -123,10 +124,11 @@ function create() {
 
     //spawn npcs
     redCar = this.physics.add.sprite(1200, 550, 'redCar');
-    copOne = this.physics.add.sprite(20, 650, 'copOne');
-    copTwo = this.physics.add.sprite(-570, 730, 'copTwo');
-    copOne.body.immovable = true;
-    copTwo.body.immovable = true;
+    copOne = new Cop(20, 650, globalThis);
+    //copOne = this.physics.add.sprite(20, 650, 'cop');
+
+    //copOne.body.immovable = true;
+
     
     //get inputs
     cursors = this.input.keyboard.createCursorKeys();
@@ -141,32 +143,31 @@ let beginRam = false;
 let rammed = false;
 function update () {
     scrollSpeed = 10; //set scrollSpeed initial value every update
+
+    //main game functionality after game has started
     if (startGame) {
         if (!beginLevel) {
             collisionDetection();
             beginLevel = true;
-            //set cops to randomly charge player
         }   
         scrollSpeed = playerMove(player, scrollSpeed);
         player.anims.play(`${selectedPlayer}`, true);
-        copDefaultState(copOne, player);
-        if (!carSpawned) {
-            spawnTraffic(redCar);
-        }
+        copOne.collision(player);
+        copOne.copDefaultState(player);
 
     }
 
     //animation updates
-    if (playerBike.anims !== undefined) { //check if bike obj is removed
+    if (playerBike.anims !== undefined) { //check if bike obj is removed after player selection
         playerBike.anims.play('go', true);
     } 
-    if (playerCar.anims !== undefined) { //check if car obj is removed
+    if (playerCar.anims !== undefined) { //check if car obj is removed after player selection
         playerCar.anims.play('hyundaiMove', true);
     }
     
     redCar.anims.play('redCar', true);
-    copOne.anims.play('coppersOne', true);
-    copTwo.anims.play('coppersTwo', true);
+    copOne.animate();
+    //copOne.anims.play('coppersOne', true);
 
     //background object updates
     moveBackgroundObjects(roads, scrollSpeed);

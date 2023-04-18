@@ -7,14 +7,8 @@ function animations(game) {
     })
     
     game.anims.create({
-        key: 'coppersOne',
-        frames: game.anims.generateFrameNumbers('copOne', {start: 0, end: 5}),
-        frameRate: 10,
-        repeat: -1
-    })
-    game.anims.create({
-        key: 'coppersTwo',
-        frames: game.anims.generateFrameNumbers('copTwo', {start: 0, end: 5}),
+        key: 'copAnim',
+        frames: game.anims.generateFrameNumbers('cop', {start: 0, end: 5}),
         frameRate: 10,
         repeat: -1
     })

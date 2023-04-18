@@ -1,5 +1,81 @@
 //550, 650, 730
 
+class Cop {
+    constructor(x, y, globalThis) {
+        this.cop = globalThis.physics.add.sprite(x, y, 'cop');
+        this.cop.body.immovable = true;
+        this.copReachedEnd = false;
+        this.ramInitiated = false;
+        this.currentlyRamming = false;
+        this.randomY;
+        this.carSpawned = false;
+        this.x = x;
+        this.y = y;
+        this.gameThis = globalThis;
+    }
+
+    animate(){
+        this.cop.anims.play('copAnim', true);
+    }
+
+    collision(player) {
+        this.gameThis.physics.add.collider(player, this.cop);
+    }
+
+    copDefaultState(player) {
+        let copEndX = 150;
+        let copVel = 50;
+        console.log(this.x, copEndX);
+        if (!this.ramInitiated) {
+            if (!this.copReachedEnd && this.x < copEndX) {
+                this.cop.setVelocityX(copVel);
+            } else if (!this.copReachedEnd && this.x >= copEndX) {
+                this.copReachedEnd = true;
+            } else if (this.copReachedEnd && this.x > -copEndX) {
+                this.cop.setVelocityX(-copVel*3);
+            } else if (this.copReachedEnd && this.x <= -copEndX) {
+                this.randomY = Math.floor(Math.random() * 3);
+                if (this.randomY === 0) {
+                    this.y = 550;
+                } else if (randomY === 1) {
+                    this.y = 650;
+                } else if (randomY === 2) {
+                    this.y = 730;
+                }
+                this.copReachedEnd = false;
+                this.finishedRamming = false;
+                
+            }
+        }
+        /*
+        if (!this.ramInitiated) {
+            this.ramInitiated = true;
+            setTimeout(() => {
+                this.ramInitiated = false;
+            }, 3000);
+        }
+        if (this.ramInitiated) {
+            this.ram(player);
+        }
+        */
+    }
+
+    ram(player) {
+        console.log('ramming');
+        //if (cop.x <= (player.x - (player.width/2)) && !finishedRamming) {
+        if (!this.cop.body.touching.right) { 
+            this.cop.setVelocityX(300);
+        } else if (this.cop.body.touching.right) {
+            this.cop.setVelocityX(0);
+            this.ramInitiated = false;
+        } else if (this.x > player.x) {
+            this.cop.setVelocityX(0);
+            this.ramInitiated = false;
+        }
+    }
+
+}
+/*
 let copReachedEnd = false;
 let ramInitiated = false;
 let currentlyRamming = false;
@@ -94,3 +170,4 @@ function spawnTraffic(car) {
     }
 }
 
+*/
