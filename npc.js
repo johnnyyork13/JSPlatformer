@@ -23,6 +23,9 @@ class Cop {
     }
 
     copDefaultState(player) {
+        const POS_ONE = 550;
+        const POS_TWO = 650;
+        const POS_THREE = 730;
         let copEndX = 150;
         let copVel = 50;
         console.log(this.x, copEndX);
@@ -36,11 +39,11 @@ class Cop {
             } else if (this.copReachedEnd && this.x <= -copEndX) {
                 this.randomY = Math.floor(Math.random() * 3);
                 if (this.randomY === 0) {
-                    this.y = 550;
+                    this.y = POS_ONE;
                 } else if (randomY === 1) {
-                    this.y = 650;
+                    this.y = POS_TWO;
                 } else if (randomY === 2) {
-                    this.y = 730;
+                    this.y = POS_THREE;
                 }
                 this.copReachedEnd = false;
                 this.finishedRamming = false;
